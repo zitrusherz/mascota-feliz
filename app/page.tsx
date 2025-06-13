@@ -1,17 +1,22 @@
-import Image from "next/image"
-import Link from "next/link"
-import { MapPin, Phone, Mail, Clock, Instagram, Facebook, Twitter } from "lucide-react"
+"use client"
+import Image from "next/image";
+import Link from "next/link";
+import { MapPin, Phone, Mail, Clock, Instagram, Facebook, Twitter } from "lucide-react";
 
-  import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/navigation/tabs"
-import { Input } from "@/components/ui/form/input"
-import { Textarea } from "@/components/ui/form/textarea"
+  import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/navigation/tabs";
+import { Input } from "@/components/ui/form/input";
+import { Textarea } from "@/components/ui/form/textarea";
 import { ReservationForm } from "@/components/reservation-form"
 import { serviceImages } from "@/lib/service-images";
+import pharmacyImageMap from "@/lib/pharmacy-images";
+import { useState } from "react";
+
 
 
 export default function Home() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   return (
     <div className="flex flex-col min-h-screen">
       {/* Header/Navigation */}
@@ -28,29 +33,31 @@ export default function Home() {
               />
               <span className="hidden font-bold sm:inline-block text-teal-600">Mascota Feliz</span>
             </Link>
+            {/* Navegación desktop */}
             <nav className="hidden md:flex gap-6">
-              <Link href="#home" className="text-sm font-medium transition-colors hover:text-teal-600">
-                Inicio
-              </Link>
-              <Link href="#services" className="text-sm font-medium transition-colors hover:text-teal-600">
-                Servicios
-              </Link>
-              <Link href="#about" className="text-sm font-medium transition-colors hover:text-teal-600">
-                Nosotros
-              </Link>
-              <Link href="#contact" className="text-sm font-medium transition-colors hover:text-teal-600">
-                Contacto
-              </Link>
+              <Link href="#home" className="text-sm font-medium transition-colors hover:text-teal-600">Inicio</Link>
+              <Link href="#services" className="text-sm font-medium transition-colors hover:text-teal-600">Servicios</Link>
+              <Link href="#about" className="text-sm font-medium transition-colors hover:text-teal-600">Nosotros</Link>
+              <Link href="#contact" className="text-sm font-medium transition-colors hover:text-teal-600">Contacto</Link>
             </nav>
           </div>
+
           <div className="flex items-center gap-2">
+            {/* Botones desktop */}
             <Button variant="outline" size="sm" className="hidden sm:flex" asChild>
               <Link href="/iniciar-sesion">Iniciar Sesión</Link>
             </Button>
             <Button size="sm" className="hidden sm:flex bg-teal-600 hover:bg-teal-700" asChild>
               <Link href="/registro">Registrarse</Link>
             </Button>
-            <Button variant="outline" size="icon" className="md:hidden">
+
+            {/* Menú hamburguesa */}
+            <Button
+              variant="outline"
+              size="icon"
+              className="md:hidden"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
               <span className="sr-only">Toggle menu</span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -71,35 +78,65 @@ export default function Home() {
             </Button>
           </div>
         </div>
+
+        {/* Menú mobile */}
+        {mobileMenuOpen && (
+          <div className="md:hidden border-t bg-white shadow-md">
+            <div className="flex flex-col px-4 py-3 space-y-2">
+              <Link href="#home" className="text-sm font-medium hover:text-teal-600">Inicio</Link>
+              <Link href="#services" className="text-sm font-medium hover:text-teal-600">Servicios</Link>
+              <Link href="#about" className="text-sm font-medium hover:text-teal-600">Nosotros</Link>
+              <Link href="#contact" className="text-sm font-medium hover:text-teal-600">Contacto</Link>
+              <Link href="/iniciar-sesion" className="text-sm font-medium hover:text-teal-600">Iniciar Sesión</Link>
+              <Link href="/registro" className="text-sm font-medium hover:text-teal-600">Registrarse</Link>
+            </div>
+          </div>
+        )}
       </header>
 
       <main className="flex-1">
         {/* Hero Section */}
-        <section id="home" className="relative">
-          <div className="absolute inset-0 z-0">
-            <Image
-              src="/placeholder.svg?height=600&width=1200"
-              alt="Veterinary Clinic"
-              fill
-              className="object-cover brightness-[0.6]"
-              priority
-            />
+        <section id="home" className="relative h-[500px] md:h-[620px] lg:h-[700px]">
+          {/* Fondo oscuro + control del espacio visible */}
+          <div className="absolute inset-0 z-0 bg-white flex items-center justify-center">
+            {/* Control del tamaño visible mediante padding relativo */}
+            <div className="w-full h-full relative p-[10%]">
+              <Image
+                src="/img/inicio/banner.png"
+                alt="Clinica Veterinaria Mascota Feliz"
+                fill
+                className="object-contain"
+                priority
+              />
+            </div>
+
+            {/* Capa semitransparente encima de la imagen */}
+            <div className="absolute inset-0 bg-black/60 z-10" />
           </div>
-          <div className="container relative z-10 py-24 md:py-32 lg:py-40">
+
+          {/* Contenido visible encima de la imagen */}
+          <div className="container relative z-20 py-24 md:py-32 lg:py-40">
             <div className="max-w-3xl space-y-5 text-white">
               <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl">Mascota Feliz</h1>
               <p className="text-xl md:text-2xl">Cuidamos de tus mascotas con amor y profesionalismo desde 1995</p>
               <div className="flex flex-col sm:flex-row gap-3">
-                <Button size="lg" className="bg-teal-600 hover:bg-teal-700">
+                <Button size="lg" className="bg-teal-600 hover:bg-teal-700" asChild>
+                  <Link href="#reservations" className="text-sm font-medium transition-colors hover:text-teal-600">
                   Reservar Hora
+                  </Link>
                 </Button>
-                <Button size="lg" variant="outline" className="bg-transparent text-white border-white hover:bg-white/20">
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="bg-transparent text-white border-white hover:bg-white/20"
+                >
                   Emergencias
                 </Button>
               </div>
             </div>
           </div>
         </section>
+
 
         {/* Quick Access */}
         <section className="bg-white py-12">
@@ -128,7 +165,11 @@ export default function Home() {
                   </div>
                   <h3 className="text-xl font-bold">Reservas Online</h3>
                   <p className="text-muted-foreground">Agenda una cita para tu mascota de manera rápida y sencilla</p>
-                  <Button className="bg-teal-600 hover:bg-teal-700">Reservar Ahora</Button>
+                  <Button className="bg-teal-600 hover:bg-teal-700" asChild>
+                    <Link href="#reservations" className="text-sm font-medium transition-colors hover:text-teal-600">
+                    Reservar Ahora
+                    </Link>
+                  </Button>
                 </CardContent>
               </Card>
               <Card className="border-teal-100 hover:border-teal-300 transition-colors">
@@ -151,7 +192,11 @@ export default function Home() {
                   </div>
                   <h3 className="text-xl font-bold">Servicios</h3>
                   <p className="text-muted-foreground">Conoce todos nuestros servicios veterinarios disponibles</p>
-                  <Button className="bg-teal-600 hover:bg-teal-700">Ver Servicios</Button>
+                  <Button className="bg-teal-600 hover:bg-teal-700" asChild>
+                    <Link href="#reservations" className="text-sm font-medium transition-colors hover:text-teal-600">
+                    Ver Servicios
+                    </Link>
+                  </Button>
                 </CardContent>
               </Card>
               <Card className="border-teal-100 hover:border-teal-300 transition-colors">
@@ -447,13 +492,13 @@ export default function Home() {
                 "Productos Dentales",
               ].map((category, index) => (
                 <Card key={index} className="overflow-hidden">
-                  <div className="h-40 bg-slate-100 flex items-center justify-center">
+                  <div className="relative w-full h-[200px] sm:h-[250px] bg-slate-100 flex items-center justify-center">
                     <Image
-                      src={`/placeholder.svg?height=160&width=160&text=${category}`}
+                      src={pharmacyImageMap[category] || "/placeholder.jpg"}
                       alt={category}
                       width={160}
                       height={160}
-                      className="object-cover"
+                      className="w-full h-full object-cover"
                     />
                   </div>
                   <CardContent className="p-4 text-center">
