@@ -193,7 +193,7 @@ export default function Home() {
                   <h3 className="text-xl font-bold">Servicios</h3>
                   <p className="text-muted-foreground">Conoce todos nuestros servicios veterinarios disponibles</p>
                   <Button className="bg-teal-600 hover:bg-teal-700" asChild>
-                    <Link href="#reservations" className="text-sm font-medium transition-colors hover:text-teal-600">
+                    <Link href="#services" className="text-sm font-medium transition-colors hover:text-teal-600">
                     Ver Servicios
                     </Link>
                   </Button>
