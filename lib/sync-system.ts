@@ -1,6 +1,6 @@
 
 "use client"
-
+import { useState, useEffect } from 'react'
 // Tipos para el sistema de sincronización
 interface SyncEvent {
     id: string
